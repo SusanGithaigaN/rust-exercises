@@ -1,14 +1,4 @@
-// TOPIC 06 — Structs and impl
-// EXERCISE TYPE: Predict
-// =============================================
-// BEFORE running, answer these in your notes:
-//   1. What does #[derive(Debug)] do? What would happen without it?
-//   2. What is the difference between new() and the other methods?
-//      (Hint: one has &self, one does not — why?)
-//   3. What does scale() return — a new value or the same one modified?
-//   4. After calling scale(), can you still use rect?
-//
-// Run: cargo run --bin predict
+// Read ../../README.md before starting.
 
 #[derive(Debug)]
 struct Point {
@@ -37,7 +27,7 @@ fn main() {
 
     let p2 = p.translate(1.0, 1.0);
     println!("translated: {:?}", p2);
-    println!("original after translate: {:?}", p); // still valid?
+    println!("original after translate: {:?}", p);
 
     let p3 = Point { x: 0.0, y: 0.0 };
     println!("origin distance: {}", p3.distance_from_origin());

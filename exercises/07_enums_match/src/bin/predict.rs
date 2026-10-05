@@ -1,13 +1,4 @@
-// TOPIC 07 — Enums and match
-// EXERCISE TYPE: Predict
-// =============================================
-// BEFORE running, answer these in your notes:
-//   1. What does each call to process() print?
-//   2. In the match inside process(), what does the {x, y} syntax do?
-//   3. What happens to msg after it is passed to process()?
-//   4. Why does the match need to handle every variant?
-//
-// Run: cargo run --bin predict
+// Read ../../README.md before starting.
 
 #[derive(Debug)]
 enum Message {
@@ -32,14 +23,8 @@ fn main() {
     process(Message::Write(String::from("hello")));
     process(Message::Quit);
 
-    // if let example — predict the output:
     let msg = Message::Write(String::from("world"));
     if let Message::Write(text) = msg {
         println!("if let matched: {}", text);
     }
-
-    // What does this print?
-    let coin_value = |c: u32| if c == 1 { "penny" } else { "other" };
-    println!("{}", coin_value(1));
-    println!("{}", coin_value(25));
 }

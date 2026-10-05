@@ -1,32 +1,33 @@
-// TOPIC 09 — Result<T, E>
-// EXERCISE TYPE: Revisit
-// =============================================
-// Do this a few days after completing the topic. Write from scratch.
-//
-// TASK: Build a small user profile validator.
-//
-// #[derive(Debug)]
-// enum ValidationError { NameEmpty, NameTooLong, AgeTooYoung, AgeTooOld, AgeNotANumber }
-//
-// fn validate_name(name: &str) -> Result<&str, ValidationError>
-//   Err(NameEmpty) if empty, Err(NameTooLong) if > 50 chars, Ok(name) otherwise.
-//
-// fn validate_age(age_str: &str) -> Result<u32, ValidationError>
-//   Err(AgeNotANumber) if parse fails, Err(AgeTooYoung) if < 18,
-//   Err(AgeTooOld) if > 120, Ok(age) otherwise.
-//
-// fn create_profile(name: &str, age_str: &str) -> Result<String, ValidationError>
-//   Uses ? to chain both validators.
-//   Returns Ok("Name: {name}, Age: {age}") if both are valid.
-//
-// Expected output:
-//   ("Alice", "30"): Ok("Name: Alice, Age: 30")
-//   ("", "30"): Err(NameEmpty)
-//   ("Alice", "abc"): Err(AgeNotANumber)
-//   ("Alice", "15"): Err(AgeTooYoung)
-//
-// Run: cargo run --bin revisit
+// Read ../../README.md before starting.
+
+#[derive(Debug)]
+enum ValidationError {
+    NameEmpty,
+    NameTooLong,
+    AgeTooYoung,
+    AgeTooOld,
+    AgeNotANumber,
+}
+
+fn validate_name(name: &str) -> Result<&str, ValidationError> {
+    todo!()
+}
+
+fn validate_age(age_str: &str) -> Result<u32, ValidationError> {
+    todo!()
+}
+
+fn create_profile(name: &str, age_str: &str) -> Result<String, ValidationError> {
+    todo!()
+}
 
 fn main() {
-    // TODO: implement all types and functions above main, then test here
+    println!("{:?}", create_profile("Alice", "30"));
+    println!("{:?}", create_profile("", "30"));
+    println!("{:?}", create_profile("Alice", "abc"));
+    println!("{:?}", create_profile("Alice", "15"));
 }
+
+// Supplied checks; leave these unchanged.
+#[cfg(test)]
+include!(concat!(env!("CARGO_MANIFEST_DIR"), "/checks/revisit.rs"));

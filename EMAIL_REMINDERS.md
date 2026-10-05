@@ -6,7 +6,10 @@ The workflow sends email from your Hostinger mailbox to the same mailbox:
 - Daily at 20:30 EAT: a completion check-in.
 
 It runs on GitHub's infrastructure; your computer does not need to be on.
-It does not track completed exercises or process email replies.
+Each email includes a daily task, recorded progress, your learning notes, and
+upcoming tasks. Record your own progress through the **Record Rust progress**
+workflow or a local command; see [PROGRESS_TRACKING.md](PROGRESS_TRACKING.md).
+Email replies are not processed.
 
 ## Activate on GitHub
 
@@ -21,6 +24,9 @@ It does not track completed exercises or process email replies.
 
 GitHub runners cannot read your local `.env`; repository secrets are required.
 If workflows are disabled for the repository, enable GitHub Actions first.
+The workflows also need permission to commit daily plans and progress to the
+selected branch. Protected branches or repository policies can reject these
+updates. Learning notes are committed and visible to readers of the repository.
 
 Scheduled runs use UTC, so the cron expressions are `0 5 * * *` and
 `30 17 * * *`. GitHub may delay or drop scheduled runs during high load;

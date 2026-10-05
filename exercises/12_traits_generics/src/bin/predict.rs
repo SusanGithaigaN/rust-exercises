@@ -1,13 +1,4 @@
-// TOPIC 12 — Traits and Generics
-// EXERCISE TYPE: Predict
-// =============================================
-// BEFORE running, answer these in your notes:
-//   1. What will largest(&numbers) return?
-//   2. What will largest(&chars) return?
-//   3. Why does print_pair(3, "hello") not compile?
-//   4. What does the T: PartialOrd bound mean?
-//
-// Run: cargo run --bin predict
+// Read ../../README.md before starting.
 
 use std::fmt::Display;
 
@@ -27,7 +18,6 @@ fn print_pair<T: Display>(a: T, b: T) {
 
 trait Greet {
     fn greeting(&self) -> String;
-
     fn greet(&self) {
         println!("{}", self.greeting());
     }
@@ -57,11 +47,8 @@ fn main() {
 
     print_pair(3, 7);
     print_pair("hello", "world");
-    // print_pair(3, "hello"); // uncomment — why does this fail?
+    // print_pair(3, "hello");
 
-    let e = English;
-    let s = Spanish;
-    e.greet();
-    s.greet();
-    println!("{}", e.greeting());
+    English.greet();
+    Spanish.greet();
 }

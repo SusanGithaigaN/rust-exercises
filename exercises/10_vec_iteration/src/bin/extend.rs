@@ -1,32 +1,41 @@
-// TOPIC 10 — Vec and Iteration
-// EXERCISE TYPE: Extend
-// =============================================
-// Add two functions that use more advanced iterator methods.
-//
-// ADD:
-// 1. fn running_totals(v: &[i32]) -> Vec<i32>
-//    Returns a Vec where each element is the cumulative sum up to that position.
-//    [1, 2, 3, 4] -> [1, 3, 6, 10]
-//    Hint: use .scan() or a fold-based approach
-//
-// 2. fn flatten_vecs(v: &[Vec<i32>]) -> Vec<i32>
-//    Flattens a slice of Vecs into one Vec.
-//    [[1,2],[3],[4,5,6]] -> [1, 2, 3, 4, 5, 6]
-//    Hint: v.iter().flatten().copied().collect()
-//
-// Expected output:
-//   running totals of [1,2,3,4,5]: [1, 3, 6, 10, 15]
-//   running totals of [5,5,5]: [5, 10, 15]
-//   flattened: [1, 2, 3, 4, 5, 6]
-//
-// Run: cargo run --bin extend
+// Read ../../README.md before starting.
+
+fn sum(v: &[i32]) -> i32 {
+    todo!()
+}
+fn max(v: &[i32]) -> Option<&i32> {
+    todo!()
+}
+fn min(v: &[i32]) -> Option<&i32> {
+    todo!()
+}
+fn evens(v: &[i32]) -> Vec<i32> {
+    todo!()
+}
+fn squares(v: &[i32]) -> Vec<i32> {
+    todo!()
+}
+fn count_over_four(v: &[i32]) -> usize {
+    todo!()
+}
+
+fn running_totals(v: &[i32]) -> Vec<i32> {
+    todo!()
+}
+
+fn flatten_vecs(v: &[Vec<i32>]) -> Vec<i32> {
+    todo!()
+}
 
 fn main() {
     let v = vec![3, 1, 4, 1, 5, 9, 2, 6];
-    let sum: i32 = v.iter().sum();
-    let evens: Vec<i32> = v.iter().filter(|&&x| x % 2 == 0).copied().collect();
-    println!("sum: {}", sum);
-    println!("evens: {:?}", evens);
-
-    // TODO: add running_totals and flatten_vecs, then test here
+    println!("{}", sum(&v));
+    println!("{:?}", evens(&v));
+    println!("{:?}", running_totals(&[1, 2, 3, 4, 5]));
+    println!("{:?}", running_totals(&[5, 5, 5]));
+    println!("{:?}", flatten_vecs(&[vec![1, 2], vec![3], vec![4, 5, 6]]));
 }
+
+// Supplied checks; leave these unchanged.
+#[cfg(test)]
+include!(concat!(env!("CARGO_MANIFEST_DIR"), "/checks/extend.rs"));

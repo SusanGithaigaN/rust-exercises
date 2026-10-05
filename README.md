@@ -1,207 +1,125 @@
-# Small, consistent Rust practice
+# Learn Rust one step at a time
 
-A Rust learning workspace with 70 exercise files across 14 topics, plus optional
-daily email reminders. Work through one small task at a time, practise writing
-your own code and tests, and revisit concepts until you can explain them.
+Start with variables, then build up to functions, ownership, and larger programs.
+Each topic has a short instruction page. It tells you what to create, the exact
+behaviour expected, and how to check one step before moving on.
 
-Aim for 15–25 minutes per session. Continue an unfinished exercise next time;
-there is no deadline for completing a topic. The exercises are intended for
-practice without AI-generated solutions. Compiler help, editor tooling, books,
-and documentation are encouraged.
+## Start here
 
-## Get started
+1. Install Rust and Cargo using [rustup](https://rustup.rs/).
+2. Open [Topic 01: variables and functions](exercises/01_variables/README.md).
+3. Start with **Variables**, in `exercises/01_variables/src/bin/variables.rs`.
+4. Write your code, then run this from the repository root:
 
-1. Fork this repository, or use **Use this template** if its owner has enabled
-   the GitHub template setting. You can also copy it into your own repository.
-2. Clone your repository and open a terminal in its root directory.
-3. Install stable Rust and Cargo using [rustup](https://rustup.rs/).
-4. Open `exercises/01_variables/src/bin/recall.rs` and read its instructions.
-5. Implement a small part of the exercise and run it:
+```bash
+python3 scripts/check.py 01_variables variables
+```
+
+The first task is to create a mutable variable named `a`, add to it, and print
+its new value. The instruction page gives the names, types, values, and expected
+output. No solution is supplied.
+
+The check helper needs Python 3.9 or newer and no extra packages. If you prefer
+Cargo directly, use `cargo run -p ex_01_variables --bin variables` and compare
+its output with the instructions yourself.
+
+## Your practice routine
+
+1. Read one numbered step in the topic README.
+2. Write the required code in `src/bin/`.
+3. Run that step's check command. Read any compiler error or failed assertion.
+4. Explain why your result is correct and try one new input.
+5. Continue to the next step. Aim for 15–25 minutes per session.
+
+Function checks run in isolation. For example:
+
+```bash
+python3 scripts/check.py 01_variables recall double
+```
+
+This checks only `double`; `describe_sign` and the temperature converter can
+remain unfinished. A `todo!()` means you still need to implement that function.
+Once all functions in a file are complete, run its main example:
 
 ```bash
 cargo run -p ex_01_variables --bin recall
 ```
 
-Read the comments at the top of each file for its task and expected behaviour.
-Some files contain unfinished code or deliberate compiler errors. These are
-part of the exercise; the entire workspace is not expected to pass every check
-before you solve them.
+Checks for variables and shadowing compare printed output. You must also follow
+the required variable names, types, and use of mutability; output alone cannot
+verify those choices. Function checks cover the listed examples and boundaries,
+but you should still try your own inputs.
 
-## How the repository works
+## Topic order
 
-```text
-Cargo.toml                         Workspace containing all 14 topic packages
-exercises/
-  01_variables/                    Each topic is a separate Cargo package
-    Cargo.toml
-    src/bin/
-      recall.rs                    Write code from scratch
-      predict.rs                   Predict behaviour before running
-      repair.rs                    Explain and fix a deliberate mistake
-      extend.rs                    Add a requirement to an existing example
-      revisit.rs                   Practise a variation later
-  ...
-  14_writing_tests/
-    src/bin/read_first.rs          Testing introduction with worked examples
-    src/bin/exercise_01.rs         Assignments where you write the tests
-    ...
-scripts/send_reminder.py           Hostinger email sender
-.github/workflows/rust-reminders.yml
-.env.example                      Placeholder credentials for local setup
-RUST_LEARNING_ROADMAP.md           Roadmap and learning preferences
-EMAIL_REMINDERS.md                 Detailed reminder setup
-```
+Work through **Write → Predict → Repair → Extend** within each topic.
+Topic 01 starts with **Variables → Shadowing → Write → Loops** first.
+Save **Review later** for a later session; it does not block the next topic.
 
-Topics 1–13 each contain the five exercise styles above. Topic 14 contains a
-testing introduction and four test-writing assignments.
-
-| Topic | Focus |
+| Topic | What you practise |
 | --- | --- |
-| 01 | Variables, mutability, and functions |
-| 02 | Ownership and moves |
-| 03 | Shared borrowing |
-| 04 | Mutable borrowing |
-| 05 | Slices and strings |
-| 06 | Structs and implementation blocks |
-| 07 | Enums and pattern matching |
-| 08 | `Option` |
-| 09 | `Result` |
-| 10 | Vectors and iteration |
-| 11 | Closures |
-| 12 | Traits and generics |
-| 13 | Modules and visibility |
-| 14 | Writing tests |
+| [01](exercises/01_variables/README.md) | Variables, mutability, shadowing, functions, conditions, loops |
+| [02](exercises/02_ownership_moves/README.md) | Ownership, moves, and copies |
+| [03](exercises/03_borrowing_shared/README.md) | Shared borrowing |
+| [04](exercises/04_borrowing_mutable/README.md) | Changing values through mutable references |
+| [05](exercises/05_slices_strings/README.md) | String slices and words |
+| [06](exercises/06_structs_impl/README.md) | Structs, constructors, and methods |
+| [07](exercises/07_enums_match/README.md) | Enums and pattern matching |
+| [08](exercises/08_option/README.md) | Missing values with Option |
+| [09](exercises/09_result/README.md) | Errors with Result and ? |
+| [10](exercises/10_vec_iteration/README.md) | Vectors, loops, and iterator examples |
+| [11](exercises/11_closures/README.md) | Closures and captured values |
+| [12](exercises/12_traits_generics/README.md) | Traits and generics |
+| [13](exercises/13_modules_visibility/README.md) | Modules and visibility |
+| [14](exercises/14_writing_tests/README.md) | Writing your own tests |
 
-The [roadmap](RUST_LEARNING_ROADMAP.md) also describes later topics such as
-concurrency and async; exercises for those stages are not included yet.
+**Predict:** write down the output before running the example, then explain any
+differences. **Repair:** fix the deliberate errors to meet the specified result.
+These files are not expected to pass until you finish the repair.
 
-## Run one exercise at a time
+Keep your practice code in `src/bin/`. Topics 1–13 keep supplied checks in
+`checks/`, so the code you edit stays short. Leave those checks unchanged.
+Topic 14 provides implemented functions and asks you to write your own tests.
+Its check commands reject a successful run with zero tests and require the
+listed minimum number of tests. You must also cover every required case.
 
-From the repository root, specify both the package and binary. Several packages
-use the same binary names, so `--bin recall` alone is ambiguous at the root.
+Avoid workspace-wide checks while repair exercises are unfinished. Always
+specify a package and binary, or use the check command in the topic README.
+To format your current file, use `rustfmt path/to/exercise.rs`.
 
-```bash
-cargo check -p ex_01_variables --bin recall
-cargo run -p ex_01_variables --bin recall
-cargo run -p ex_02_ownership_moves --bin predict
-```
+## Optional progress and reminders
 
-Alternatively, enter a topic directory and use its shorter command:
-
-```bash
-cd exercises/01_variables
-cargo run --bin recall
-```
-
-Before running a prediction exercise, write down what you expect. For a repair
-exercise, explain the error before editing the code. After any exercise, try a
-small variation and record one sentence about what you learned.
-
-If an exercise feels too large, complete only one function or requirement per
-session. If it is easy, try a variation. If it is confusing, practise the same
-concept with a smaller example. Revisit earlier exercises regularly.
-
-## Learn to write tests
-
-Topic 14 introduces test modules, assertions, edge cases, and expected panics.
-Its `read_first.rs` file includes worked tests; the assignment files leave test
-implementation to you.
+The practice exercises work without email setup. To see your next planned task:
 
 ```bash
-cargo test -p ex_14_writing_tests --bin read_first
-cargo test -p ex_14_writing_tests --bin exercise_01
+python3 scripts/progress.py status
 ```
 
-You can also practise writing a small test for an earlier function once you
-understand the introduction. Choose a typical input and an edge case, explain
-the expected results, and write your own assertions.
-
-A successful run reporting **zero tests** does not demonstrate correctness:
-add your tests before treating a test-writing assignment as complete. Avoid
-running workspace-wide tests while unrelated repair exercises are unfinished.
-
-## Optional daily email reminders
-
-The GitHub Actions workflow sends from your Hostinger mailbox to that same
-mailbox. It runs on GitHub, even when your computer is off.
-
-| Reminder | East Africa Time (UTC+3) | Workflow cron in UTC |
-| --- | --- | --- |
-| Morning practice reminder | 08:00 daily | `0 5 * * *` |
-| Evening completion check-in | 20:30 daily | `30 17 * * *` |
-
-Emails encourage small practice sessions. They do not select your next exercise,
-track completion, or process replies. Reminders are optional; Rust exercises
-work without any email configuration or Python installation.
-
-### Activate reminders in your own repository
-
-1. Ensure the script and workflow are committed to your repository's **default
-   branch**. For a fork, enable GitHub Actions in the **Actions** tab if prompted.
-2. Open **Settings → Secrets and variables → Actions → New repository secret**.
-3. Add these two secrets using **your own** Hostinger mailbox credentials:
-
-   | Secret name | Value |
-   | --- | --- |
-   | `HOSTINGER_EMAIL` | Full mailbox address |
-   | `HOSTINGER_PASSWORD` | Mailbox password, not your Hostinger account password |
-
-4. Open **Actions → Rust practice email reminders → Run workflow**. Select
-   `morning` or `evening` and run it to send a real test email.
-5. Check the run logs and your inbox, including spam. Once configured, both
-   daily schedules use the same secrets automatically.
-
-GitHub cannot read the `.env` on your computer. Local credentials and repository
-secrets are separate. Never commit `.env` or put credentials directly into the
-workflow; `.gitignore` excludes local environment files.
-
-GitHub scheduling is best-effort: runs can be delayed or dropped under load,
-and exact-minute delivery is not guaranteed. Public repositories' schedules
-can be disabled after 60 days without repository activity. See
-[GitHub's schedule documentation](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule).
-
-### Preview or send locally
-
-Use Python 3.9 or newer. The script needs no third-party Python packages.
-Preview both messages without credentials or sending:
+To record it:
 
 ```bash
-python3 scripts/send_reminder.py morning --dry-run
-python3 scripts/send_reminder.py evening --dry-run
+python3 scripts/progress.py update --status in_progress --note "What I tried"
+python3 scripts/progress.py update --status done --note "What I learned"
 ```
 
-For a real local send, copy `.env.example` to `.env`, fill in your mailbox
-credentials, and run:
+The reminder catalog follows the same steps and check commands as the topic
+pages. Reviews come after the main sequence. Existing task IDs and recorded
+progress are preserved; a saved daily plan stays unchanged for that day.
+Completion is self-reported, and passing a check does not update progress.
 
-```bash
-cp .env.example .env
-# Edit .env before sending. Do not overwrite an existing configured .env.
-python3 scripts/send_reminder.py morning
-```
+See [progress tracking](PROGRESS_TRACKING.md) for local and GitHub updates, and
+[email reminders](EMAIL_REMINDERS.md) for the optional morning and evening
+reminders. Credentials belong in local `.env` files or GitHub secrets.
 
-Existing environment variables take precedence over `.env` values. SMTP uses
-`smtp.hostinger.com` on port 465 with verified TLS, matching
-[Hostinger Email settings](https://www.hostinger.com/support/1575756-how-to-get-email-account-configuration-details-for-hostinger-email/).
-The script reports SMTP acceptance; this does not guarantee inbox placement.
+## When you get stuck
 
-### Customise or troubleshoot
+Read the compiler error fully, check the task's expected behaviour, and try a
+smaller example. Consult the matching Rust Book section linked in your planned
+task, or use `rustc --explain <error-code>`.
 
-- Edit the subject and body in `build_message()` in `scripts/send_reminder.py`.
-- To change reminder times, update both the cron entries **and** their matching
-  conditions in the workflow's send step. The current expressions use UTC.
-- Other mail providers require changes to the SMTP host, port, and potentially
-  authentication; this template is configured specifically for Hostinger Email.
-- If a run fails, check secret names, mailbox credentials, and SMTP settings.
-- If no run appears, check Actions is enabled and the workflow is on the default
-  branch. Check for a disabled schedule or GitHub service delays.
-- To stop reminders, disable this workflow in the Actions tab.
+- [The Rust Book](https://doc.rust-lang.org/book/)
+- [Rust by Example](https://doc.rust-lang.org/rust-by-example/)
+- [Standard library reference](https://doc.rust-lang.org/std/)
+- [Longer learning roadmap](RUST_LEARNING_ROADMAP.md)
 
-See [EMAIL_REMINDERS.md](EMAIL_REMINDERS.md) for the dedicated setup guide.
-
-## Learning resources
-
-- [The Rust Book](https://doc.rust-lang.org/book/) — read a small section at a time.
-- [Rustlings](https://rustlings.rust-lang.org/) — additional focused exercises.
-- [Rust by Example](https://doc.rust-lang.org/rust-by-example/) — examples and syntax.
-- [Standard library documentation](https://doc.rust-lang.org/std/) — API reference.
-- `rustc --explain <error-code>` — explanations for compiler errors.
+AI can help prepare prompts, but your practice files remain yours to implement.

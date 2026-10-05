@@ -1,9 +1,4 @@
-// TOPIC 07 — Enums and match
-// EXERCISE TYPE: Repair
-// =============================================
-// Fix the enum and match errors.
-//
-// Run: cargo run --bin repair
+// Read ../../README.md before starting.
 
 enum Season {
     Spring,
@@ -19,7 +14,7 @@ enum Shape {
 }
 
 fn describe_season(s: Season) -> &'static str {
-    // ERROR 1: match is not exhaustive — Winter is missing
+    // ERROR 1
     match s {
         Season::Spring => "warm and rainy",
         Season::Summer => "hot",
@@ -28,7 +23,7 @@ fn describe_season(s: Season) -> &'static str {
 }
 
 fn area(shape: Shape) -> f64 {
-    // ERROR 2: wrong pattern syntax for tuple variants
+    // ERROR 2
     match shape {
         Shape::Circle { radius } => std::f64::consts::PI * radius * radius,
         Shape::Rectangle { width, height } => width * height,
@@ -42,7 +37,7 @@ fn area(shape: Shape) -> f64 {
 fn main() {
     println!("{}", describe_season(Season::Winter));
 
-    // ERROR 3: using enum variant without the enum name prefix
+    // ERROR 3
     let shape = Circle(3.0);
     println!("area: {}", area(shape));
 }

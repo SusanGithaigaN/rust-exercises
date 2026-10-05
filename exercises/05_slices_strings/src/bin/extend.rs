@@ -1,45 +1,30 @@
-// TOPIC 05 — Slices and Strings
-// EXERCISE TYPE: Extend
-// =============================================
-// The two recall functions are provided. Add two more.
-//
-// ADD:
-// 1. fn word_count(s: &str) -> usize
-//    Returns the number of words (split by whitespace).
-//    Hint: s.split_whitespace().count()
-//
-// 2. fn reverse_words(s: &str) -> String
-//    Reverses the ORDER of words (not the characters within each word).
-//    "the quick brown fox" -> "fox brown quick the"
-//    Hint: s.split_whitespace().rev().collect::<Vec<_>>().join(" ")
-//
-// Expected output:
-//   word count of "the quick brown fox": 4
-//   word count of "  spaces   here  ": 2
-//   reversed: "fox brown quick the"
-//   reversed single word: "onlyone"
-//
-// Run: cargo run --bin extend
+// Read ../../README.md before starting.
 
 fn first_word(s: &str) -> &str {
-    match s.find(' ') {
-        Some(i) => &s[0..i],
-        None => s,
-    }
+    todo!()
 }
-
 fn last_word(s: &str) -> &str {
-    match s.rfind(' ') {
-        Some(i) => &s[i + 1..],
-        None => s,
-    }
+    todo!()
 }
 
-// TODO: add word_count and reverse_words here
+fn word_count(s: &str) -> usize {
+    todo!()
+}
+
+fn reverse_words(s: &str) -> String {
+    todo!()
+}
 
 fn main() {
-    let sentence = "the quick brown fox";
-    println!("first: {}", first_word(sentence));
-    println!("last: {}", last_word(sentence));
-    // TODO: call word_count and reverse_words with the expected values above
+    let s = "the quick brown fox";
+    println!("{}", first_word(s));
+    println!("{}", last_word(s));
+    println!("{}", word_count(s));
+    println!("{}", word_count("  a  b  "));
+    println!("{}", reverse_words(s));
+    println!("{}", reverse_words("one"));
 }
+
+// Supplied checks; leave these unchanged.
+#[cfg(test)]
+include!(concat!(env!("CARGO_MANIFEST_DIR"), "/checks/extend.rs"));

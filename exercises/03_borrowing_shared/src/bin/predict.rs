@@ -1,13 +1,4 @@
-// TOPIC 03 — Borrowing: Shared References
-// EXERCISE TYPE: Predict
-// =============================================
-// BEFORE running, answer these in your notes:
-//   1. How many shared references can exist at the same time?
-//   2. Does borrowing (shared) transfer ownership?
-//   3. After all the borrows, is s still valid?
-//   4. Why can print_len be called multiple times?
-//
-// Run: cargo run --bin predict
+// Read ../../README.md before starting.
 
 fn print_len(s: &String) {
     println!("length: {}", s.len());
@@ -32,7 +23,6 @@ fn main() {
 
     println!("s is still here: {}", s);
 
-    // Multiple borrows at the same scope:
     let r3 = &s;
     let r4 = &s;
     let r5 = &s;

@@ -7,9 +7,12 @@ from email.message import EmailMessage
 import os
 from pathlib import Path
 import smtplib
+import socket
 import ssl
 import sys
 from zoneinfo import ZoneInfo
+
+import progress
 
 
 def load_local_env():
@@ -35,37 +38,14 @@ def build_message(kind, mailbox, now):
     message["From"] = mailbox
     message["To"] = mailbox
     if kind == "morning":
-        message["Subject"] = f"Rust practice: one small exercise — {date}"
-        body = """Good morning! Time for a small Rust practice session.
-
-Spend 15–25 minutes on your current exercise. You do not need a new topic today.
-
-1. Recall the concept or read one small section of the Rust Book.
-2. Write, predict, repair, or extend a small example yourself.
-3. Run it, read the compiler errors, and explain what happened.
-4. Write one sentence about what you learned.
-
-When practising tests, write your own assertions and include a normal case and
-an edge case. Use documentation and compiler help; keep AI assistance off.
-
-If you are unsure where to start, open exercises/01_variables/src/bin/recall.rs.
-Otherwise continue where you left off. It is fine to finish next session.
-"""
+        message["Subject"] = f"Rust practice: today's plan — {date}"
+        greeting = "Good morning! Here is your small Rust practice plan."
     else:
-        message["Subject"] = f"Rust check-in: did you practise today? — {date}"
-        body = """Did you complete today's Rust practice?
-
-Take a minute to record:
-- What did you try?
-- What can you explain now?
-- What was confusing?
-- What is the next small step?
-
-If you wrote tests, can you explain why those cases matter?
-If you did not finish, continue next time. No catching-up marathon needed.
-
-This is a reminder only; it does not automatically track completion or replies.
-"""
+        message["Subject"] = f"Rust check-in: today's progress — {date}"
+        greeting = "Did you practise today? Here is your recorded progress."
+    tasks, state = progress.load()
+    body = greeting + "\n\n" + progress.report(tasks, state, now.date().isoformat())
+    body += "\n\nUse documentation and compiler help; keep AI assistance off during practice."
     message.set_content(f"{date} (East Africa Time)\n\n{body}")
     return message
 
@@ -88,18 +68,41 @@ def main():
     if not mailbox or not password:
         print("Missing HOSTINGER_EMAIL or HOSTINGER_PASSWORD. Configure GitHub Actions secrets or local .env.", file=sys.stderr)
         return 1
+    if any(c in mailbox for c in "\r\n") or "@" not in mailbox:
+        print("HOSTINGER_EMAIL must contain only the full mailbox address, without quotes or a variable name.", file=sys.stderr)
+        return 1
+    if password.startswith("HOSTINGER_PASSWORD=") or password[:1] in ("\"", "'"):
+        print("Check HOSTINGER_PASSWORD: paste only the password value, without variable names or surrounding quotes.", file=sys.stderr)
+        return 1
+    stage = "message preparation"
     try:
         message = build_message(args.kind, mailbox, now)
+        stage = "connection/TLS"
         with smtplib.SMTP_SSL("smtp.hostinger.com", 465, timeout=30,
                               context=ssl.create_default_context()) as smtp:
+            stage = "authentication"
             smtp.login(mailbox, password)
+            stage = "message delivery"
             refused = smtp.send_message(message)
             if refused:
                 print("SMTP rejected the recipient.", file=sys.stderr)
                 return 1
-    except (OSError, smtplib.SMTPException, ValueError):
-        # Do not print server responses or credentials into Actions logs.
-        print("Reminder failed. Check mailbox credentials, SMTP access, and Hostinger settings.", file=sys.stderr)
+    except (OSError, smtplib.SMTPException, ValueError) as error:
+        # Log only fixed explanations, exception class, and numeric SMTP codes.
+        # Server responses can contain mailbox addresses or other sensitive data.
+        code = getattr(error, "smtp_code", None)
+        detail = f" (SMTP {code})" if isinstance(code, int) else ""
+        print(f"Reminder failed during {stage}: {type(error).__name__}{detail}.", file=sys.stderr)
+        if isinstance(error, smtplib.SMTPAuthenticationError):
+            print("Check GitHub secrets against your mailbox login: full email address and mailbox password. Verify login in Hostinger webmail.", file=sys.stderr)
+        elif isinstance(error, socket.gaierror):
+            print("Runner could not resolve smtp.hostinger.com. Check DNS/network availability.", file=sys.stderr)
+        elif isinstance(error, TimeoutError):
+            print("SMTP connection or response timed out. Check network access and provider availability.", file=sys.stderr)
+        elif isinstance(error, ssl.SSLError):
+            print("TLS negotiation or certificate verification failed. Check provider TLS settings; certificate verification remains enabled.", file=sys.stderr)
+        else:
+            print("Check SMTP access and Hostinger settings for the reported stage.", file=sys.stderr)
         return 1
     print(f"{args.kind.capitalize()} reminder accepted by SMTP.")
     return 0

@@ -1,28 +1,21 @@
-// TOPIC 05 — Slices and Strings
-// EXERCISE TYPE: Revisit
-// =============================================
-// Do this a few days after completing the topic. Write from scratch.
-//
-// TASK A: fn truncate_words(s: &str, max_words: usize) -> String
-//   Returns a String containing at most max_words words from s.
-//   If s has fewer words, return all of them.
-//   "the quick brown fox" with max_words=2 -> "the quick"
-//
-// TASK B: fn contains_word(text: &str, word: &str) -> bool
-//   Returns true if text contains word as a whole word (surrounded by spaces or at ends).
-//   "hello world" contains "world": true
-//   "hello worldwide" contains "world": false
-//   Hint: use split_whitespace and check for equality
-//
-// Expected output:
-//   truncate "the quick brown fox" to 2: "the quick"
-//   truncate "short" to 5: "short"
-//   "hello world" contains "world": true
-//   "hello worldwide" contains "world": false
-//   "world peace" contains "world": true
-//
-// Run: cargo run --bin revisit
+// Read ../../README.md before starting.
+
+fn truncate_words(s: &str, max_words: usize) -> String {
+    todo!()
+}
+
+fn contains_word(text: &str, word: &str) -> bool {
+    todo!()
+}
 
 fn main() {
-    // TODO: implement truncate_words and contains_word above main, then call here
+    println!("{}", truncate_words("the quick brown fox", 2));
+    println!("{}", truncate_words("short", 5));
+    println!("{}", contains_word("hello world", "world"));
+    println!("{}", contains_word("hello worldwide", "world"));
+    println!("{}", contains_word("world peace", "world"));
 }
+
+// Supplied checks; leave these unchanged.
+#[cfg(test)]
+include!(concat!(env!("CARGO_MANIFEST_DIR"), "/checks/revisit.rs"));

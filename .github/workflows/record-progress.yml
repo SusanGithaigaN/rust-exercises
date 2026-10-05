@@ -1,0 +1,60 @@
+name: Record Rust progress
+
+on:
+  workflow_dispatch:
+    inputs:
+      status:
+        description: Your progress
+        required: true
+        type: choice
+        options:
+          - in_progress
+          - done
+          - not_started
+      task:
+        description: Task ID (blank selects today's incomplete task)
+        required: false
+        type: string
+      note:
+        description: What you learned, tried, or found confusing (saved in repo)
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rust-progress-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Record your update
+        env:
+          PROGRESS_STATUS: ${{ inputs.status }}
+          PROGRESS_TASK: ${{ inputs.task }}
+          PROGRESS_NOTE: ${{ inputs.note }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(update --status "$PROGRESS_STATUS" --note "$PROGRESS_NOTE")
+          if [[ -n "$PROGRESS_TASK" ]]; then
+            args+=(--task "$PROGRESS_TASK")
+          fi
+          python scripts/progress.py "${args[@]}" > /dev/null
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add learning/progress.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Record Rust learning progress'
+            git push
+          fi

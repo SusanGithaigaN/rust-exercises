@@ -1,25 +1,4 @@
-// TOPIC 14 — Writing Tests
-// EXERCISE 03: Test a struct with state
-// =============================================
-// A Counter struct is implemented below.
-// YOUR TASK: write tests that verify its behavior across multiple method calls.
-//
-// Testing stateful structs means testing:
-//   - Initial state after new()
-//   - State changes after each method call
-//   - Sequences of calls (increment, increment, reset, increment)
-//   - Boundary behavior (what happens when the counter is full?)
-//
-// Example pattern for testing sequences:
-//   let mut c = Counter::new(3);
-//   assert_eq!(c.value(), 0);
-//   assert!(c.increment());   // returns true, not at max
-//   assert!(c.increment());
-//   assert!(c.increment());   // now at max
-//   assert!(!c.increment());  // returns false, already at max
-//   assert_eq!(c.value(), 3);
-//
-// Run: cargo test --bin exercise_03
+// Read ../../README.md before starting.
 
 #[derive(Debug)]
 struct Counter {
@@ -53,13 +32,7 @@ impl Counter {
     }
 }
 
-// TODO: write your tests here
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-//
-//     // your tests go here
-// }
+// Write your tests here.
 
 fn main() {
     let mut c = Counter::new(5);
