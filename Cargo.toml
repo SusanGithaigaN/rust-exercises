@@ -1,0 +1,18 @@
+[workspace]
+members = [
+    "exercises/01_variables",
+    "exercises/02_ownership_moves",
+    "exercises/03_borrowing_shared",
+    "exercises/04_borrowing_mutable",
+    "exercises/05_slices_strings",
+    "exercises/06_structs_impl",
+    "exercises/07_enums_match",
+    "exercises/08_option",
+    "exercises/09_result",
+    "exercises/10_vec_iteration",
+    "exercises/11_closures",
+    "exercises/12_traits_generics",
+    "exercises/13_modules_visibility",
+    "exercises/14_writing_tests",
+]
+resolver = "2"

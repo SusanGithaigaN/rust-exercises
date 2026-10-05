@@ -1,0 +1,51 @@
+name: Rust practice email reminders
+
+on:
+  schedule:
+    # EAT is UTC+3: 08:00 EAT = 05:00 UTC.
+    - cron: '0 5 * * *'
+    # 20:30 EAT = 17:30 UTC.
+    - cron: '30 17 * * *'
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: Reminder to send
+        required: true
+        type: choice
+        options:
+          - morning
+          - evening
+
+permissions:
+  contents: read
+
+jobs:
+  send-reminder:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Send email
+        env:
+          HOSTINGER_EMAIL: ${{ secrets.HOSTINGER_EMAIL }}
+          HOSTINGER_PASSWORD: ${{ secrets.HOSTINGER_PASSWORD }}
+          EVENT_NAME: ${{ github.event_name }}
+          SCHEDULE: ${{ github.event.schedule }}
+          MANUAL_KIND: ${{ inputs.kind }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            reminder_kind="$MANUAL_KIND"
+          elif [[ "$SCHEDULE" == '0 5 * * *' ]]; then
+            reminder_kind=morning
+          elif [[ "$SCHEDULE" == '30 17 * * *' ]]; then
+            reminder_kind=evening
+          else
+            echo 'Unknown reminder schedule.' >&2
+            exit 1
+          fi
+          python scripts/send_reminder.py "$reminder_kind"

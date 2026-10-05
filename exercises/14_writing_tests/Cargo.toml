@@ -1,0 +1,24 @@
+[package]
+name = "ex_14_writing_tests"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "read_first"
+path = "src/bin/read_first.rs"
+
+[[bin]]
+name = "exercise_01"
+path = "src/bin/exercise_01.rs"
+
+[[bin]]
+name = "exercise_02"
+path = "src/bin/exercise_02.rs"
+
+[[bin]]
+name = "exercise_03"
+path = "src/bin/exercise_03.rs"
+
+[[bin]]
+name = "exercise_04"
+path = "src/bin/exercise_04.rs"

@@ -1,0 +1,24 @@
+[package]
+name = "ex_10_vec_iteration"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "recall"
+path = "src/bin/recall.rs"
+
+[[bin]]
+name = "predict"
+path = "src/bin/predict.rs"
+
+[[bin]]
+name = "repair"
+path = "src/bin/repair.rs"
+
+[[bin]]
+name = "extend"
+path = "src/bin/extend.rs"
+
+[[bin]]
+name = "revisit"
+path = "src/bin/revisit.rs"
