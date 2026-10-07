@@ -1,11 +1,11 @@
 name: Rust practice email reminders
 
 on:
-  schedule:
-    # EAT is UTC+3: 08:00 EAT = 05:00 UTC.
-    - cron: '0 5 * * *'
-    # 20:30 EAT = 17:30 UTC.
-    - cron: '30 17 * * *'
+  # schedule:
+  #   # EAT is UTC+3: 08:00 EAT = 05:00 UTC.
+  #   - cron: '0 5 * * *'
+  #   # 20:30 EAT = 17:30 UTC.
+  #   - cron: '30 17 * * *'
   workflow_dispatch:
     inputs:
       kind:
