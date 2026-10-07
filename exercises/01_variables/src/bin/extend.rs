@@ -1,21 +1,36 @@
 // Read ../../README.md before starting.
 
 fn double(n: i32) -> i32 {
-    todo!()
+    // todo!()
+    return n * 2;
 }
 fn describe_sign(n: i32) -> &'static str {
-    todo!()
+    // todo!()
+    if n > 0 {
+        return "positive";
+    } else if n < 0 {
+        return "negative";
+    } else {
+        return "zero";
+    }
 }
 fn celsius_to_fahrenheit(c: f64) -> f64 {
-    todo!()
+    let faren: f64 = 33.8;
+    return c * faren;
 }
 
 fn swap(a: i32, b: i32) -> (i32, i32) {
-    todo!()
+    // todo!()
+    return (b, a);
 }
 
 fn is_between(value: i32, low: i32, high: i32) -> bool {
-    todo!()
+    // todo!()
+    if low <= value && low <= high {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 fn main() {

@@ -14,23 +14,24 @@ fn describe(n: i32) -> &'static str {
 
 fn main() {
     // ERROR 1
-    let x = 10;
-    x = 20;
+    let _x = 10;
+    let x = 20;
     println!("x: {}", x);
 
     // ERROR 2
-    let y: i32 = 3.14;
+    let y: f64 = 3.14;
     println!("y: {}", y);
 
     // ERROR 3
-    let result;
+    // let result;
+    let result = add(3, 4);
     println!("result: {}", result);
-    result = add(3, 4);
+    
 
     // ERROR 4
-    println!("sum: {}", add(1, 2, 3));
+    println!("sum: {}", add(1, 2));
 
     // ERROR 5
-    let label: i32 = describe(5);
+    let label:&str = describe(5);
     println!("label: {}", label);
 }

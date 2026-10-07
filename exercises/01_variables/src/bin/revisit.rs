@@ -1,7 +1,7 @@
 // Read ../../README.md before starting.
 
 fn bmi_category(weight_kg: f64, height_m: f64) -> &'static str {
-    todo!()
+    
 }
 
 fn describe_temp(celsius: f64) -> &'static str {

@@ -1,15 +1,30 @@
 // Read ../../README.md before starting.
 
 fn double(n: i32) -> i32 {
-    todo!()
+    // Bit shift method
+    // let n: i32 = n <<1;
+    // arithmetic operator
+    let n: i32 = n * 2;
+    return n;
 }
 
 fn describe_sign(n: i32) -> &'static str {
-    todo!()
+    if n > 0 {
+        return "positive";
+    } else if n < 0 {
+        return "negative";
+    } else {
+        return "zero";
+    }
 }
 
 fn celsius_to_fahrenheit(c: f64) -> f64 {
-    todo!()
+    // todo!()
+    // 1c = 33.8 faren
+    let f: f64 = 33.8;
+    let result: f64 = c * f;
+    return result;
+
 }
 
 fn main() {
