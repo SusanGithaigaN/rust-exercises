@@ -1,18 +1,22 @@
 // Read ../../README.md before starting.
 
-fn append_exclamation(s: String) -> String {
-    todo!()
+fn append_exclamation(mut s: String) -> String {
+    s.push_str("!");
+    s
 }
 fn shout(s: String) -> String {
-    todo!()
+    // todo!()
+    s.to_uppercase()
+    // s
 }
 
 fn double_elements(v: Vec<i32>) -> Vec<i32> {
-    todo!()
+    // todo!()
+    v.iter().map(|x| x * 2).collect()
 }
 
 fn sum_and_drop(v: Vec<i32>) -> i32 {
-    todo!()
+    return v.iter().sum();
 }
 
 fn main() {

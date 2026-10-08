@@ -1,11 +1,12 @@
 // Read ../../README.md before starting.
 
-fn append_exclamation(s: String) -> String {
-    todo!()
+fn append_exclamation(mut s: String) -> String {
+    s.push_str("!");
+    s
 }
 
 fn shout(s: String) -> String {
-    todo!()
+    s.to_uppercase()
 }
 
 fn main() {
