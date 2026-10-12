@@ -1,21 +1,36 @@
 // Read ../../README.md before starting.
 
 fn char_count(s: &String) -> usize {
-    todo!()
+    // todo!()
+    s.chars().count()
 }
 fn starts_with_vowel(s: &String) -> bool {
-    todo!()
+    // todo!()
+    for character in s.chars() {
+        return character.is_lowercase();
+    }
+    false
 }
 fn count_spaces(s: &String) -> usize {
-    todo!()
+    // todo!()
+    s.chars().filter(|&s| s == ' ').count()
 }
 
 fn count_vowels(s: &str) -> usize {
-    todo!()
+    // todo!()
+    let mut count = 0;
+    for ch in s.chars() {
+        if ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' {
+            count += 1;
+        }
+    }
+    count
 }
 
 fn is_palindrome(s: &str) -> bool {
-    todo!()
+    // todo!()
+    let s_lower = s.to_ascii_lowercase();
+    s_lower.chars().eq(s_lower.chars().rev())
 }
 
 fn main() {

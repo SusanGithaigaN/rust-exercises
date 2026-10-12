@@ -1,11 +1,31 @@
 // Read ../../README.md before starting.
 
 fn bmi_category(weight_kg: f64, height_m: f64) -> &'static str {
-    todo!()
+    // bmi = wieght in kg/(height *height in metres)
+    let bmi = weight_kg / (height_m * height_m);
+
+    if bmi < 18.5 {
+        return "underweight";
+    } else if bmi < 25 as f64 {
+        return "normal";
+    } else if bmi < 30 as f64 {
+        return "overweight";
+    } else {
+        return "obese";
+    }
 }
 
 fn describe_temp(celsius: f64) -> &'static str {
-    todo!()
+    // todo!()
+    if celsius < 0 as f64{
+        "freezing"
+    } else if celsius < 15 as f64{
+        "cold"
+    } else if celsius <25 as f64{
+        "warm"
+    }else {
+        "hot"
+    }
 }
 
 fn main() {

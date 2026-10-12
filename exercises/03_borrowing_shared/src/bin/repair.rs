@@ -11,7 +11,7 @@ fn print_twice(s: &String) {
 fn main() {
     // ERROR 1
     let s1 = String::from("hello");
-    let len = get_length(s1);
+    let len = get_length(&s1);
     println!("len: {}, s1: {}", len, s1);
 
     // ERROR 2 — uncomment and fix the dangling reference
@@ -23,6 +23,6 @@ fn main() {
 
     // ERROR 3
     let s2 = String::from("world");
-    print_twice(s2);
+    print_twice(&s2);
     println!("s2 still here: {}", s2);
 }

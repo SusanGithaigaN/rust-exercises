@@ -1,15 +1,26 @@
 // Read ../../README.md before starting.
 
 fn char_count(s: &String) -> usize {
-    todo!()
+    // & or mut: used for string borrowing
+    s.chars().count()
 }
 
 fn starts_with_vowel(s: &String) -> bool {
-    todo!()
+    // todo!()
+    // s.chars().next
+    for ch in s.chars() {
+        if ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u' {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    false
 }
 
 fn count_spaces(s: &String) -> usize {
-    todo!()
+    let chars = s.chars().peekable();
+    return chars.count();
 }
 
 fn main() {
