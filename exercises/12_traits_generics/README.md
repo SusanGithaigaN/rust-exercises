@@ -1,97 +1,93 @@
 # 12 — Traits and generics
 
-Work on one numbered step at a time. Write your code in `src/bin/`; the supplied checks describe expected behaviour and are not solutions.
+A trait names a set of methods a type must provide. `impl Trait for Type` adds those methods to the type. Generic functions like `fn f<T: SomeTrait>(x: T)` accept any type that satisfies the bound. `&impl Trait` is static dispatch (resolved at compile time); `&dyn Trait` is dynamic dispatch (resolved at runtime).
 
-Run commands from the repository root. A function check runs only that step, so other `todo!()` bodies can remain unfinished. Do not change the supplied checks to make an incorrect answer pass.
-
-The checks cover the listed examples; also explain your result and try one new input before recording a task as done.
+Complete one step at a time. Run checks from the repository root. Do not change supplied checks to make an incorrect answer pass.
 
 ## Write
 
-Open `src/bin/recall.rs`.
+Open `src/bin/recall.rs`. The `Describable` trait has one required method (`describe`) and one default method (`short_description`). Implement `describe` and get `short_description` for free.
 
-1. Implement `Describable::describe` for Book. Return `"Book: 'TITLE' by AUTHOR, PAGES pages"`, substituting the stored fields.
+1. Implement `Describable::describe` for `Book`. Return `"Book: 'TITLE' by AUTHOR, PAGES pages"`.
 
-   Check: `python3 scripts/check.py 12_traits_generics recall book`.
+   Check: `python3 scripts/check.py 12_traits_generics recall book`
 
-2. Implement `Describable::describe` for Movie. Return `"Movie: 'TITLE' directed by DIRECTOR (YEAR)"`.
+2. Implement `Describable::describe` for `Movie`. Return `"Movie: 'TITLE' directed by DIRECTOR (YEAR)"`.
 
-   Check: `python3 scripts/check.py 12_traits_generics recall movie`.
+   Check: `python3 scripts/check.py 12_traits_generics recall movie`
 
-3. Implement `print_description(item)`. Print the full description on one line, then the default short description on the next. The default keeps the first 30 Unicode characters plus `...` only when longer than 30. Run the file after completing both implementations. Each item must print its full description followed by its shortened description.
+3. Implement `print_description(item: &impl Describable)`. Print `describe()` on one line, then `short_description()` on the next.
 
-   Check: `python3 scripts/check.py 12_traits_generics recall print_description`.
+   Check: `python3 scripts/check.py 12_traits_generics recall print_description`
 
-After all steps: `cargo run -p ex_12_traits_generics --bin recall`.
+Run: `cargo run -p ex_12_traits_generics --bin recall`
+
+| Output |
+| --- |
+| `Book: 'The Rust Programming Language' by Steve Klabnik, 560 pages` |
+| `Book: 'The Rust Programming L...` |
+| `Movie: 'Inception' directed by Christopher Nolan (2010)` |
+| `Movie: 'Inception' directed b...` |
 
 ## Predict
 
 Open `src/bin/predict.rs`.
 
-Predict every printed line. Explain why print_pair(3, "hello") would fail, how PartialOrd enables comparison, and which greeting implementation each call chooses.
+Predict every printed line. Explain why `print_pair(3, "hello")` would fail, how `PartialOrd` enables comparison, and which `greeting` implementation each call chooses.
 
-Run: `cargo run -p ex_12_traits_generics --bin predict`.
-
-Done when you have compared the output with your prediction and explained each difference.
+Run: `cargo run -p ex_12_traits_generics --bin predict`
 
 ## Repair
 
 Open `src/bin/repair.rs`.
 
-Make Article implement the trait’s required summarize method. Add a formatting bound to print_twice. Add comparison and copying bounds to largest, keeping its value-returning signature. Use the supplied nonempty list.
+Make `Article` implement the required `summarize` method. Add a formatting bound to `print_twice`. Add comparison and copying bounds to `largest`, keeping its value-returning signature.
 
-Run: `cargo run -p ex_12_traits_generics --bin repair`.
-
-Done when the program compiles, runs without an unexpected panic, and meets the results above. Explain the cause of each error. Some fixes address logic errors or warnings, not compiler errors.
+Run: `cargo run -p ex_12_traits_generics --bin repair`
 
 ## Extend
 
 Open `src/bin/extend.rs`.
 
-1. Reimplement from recall: `Describable::describe` for Book. Return `"Book: 'TITLE' by AUTHOR, PAGES pages"`, substituting the stored fields.
+1. Reimplement `describe` for both types and `print_description` from recall.
 
-   Check: `python3 scripts/check.py 12_traits_generics extend book`.
+   Checks: `python3 scripts/check.py 12_traits_generics extend book` (and `movie`, `print_description`)
 
-2. Reimplement from recall: `Describable::describe` for Movie. Return `"Movie: 'TITLE' directed by DIRECTOR (YEAR)"`.
+2. Implement `HasTitle::title` for `Book` and `Movie`. Return the title field as `&str` — do not allocate or consume the struct.
 
-   Check: `python3 scripts/check.py 12_traits_generics extend movie`.
+   Check: `python3 scripts/check.py 12_traits_generics extend title`
 
-3. Reimplement from recall: `print_description(item)`. Print the full description on one line, then the default short description on the next. The default keeps the first 30 Unicode characters plus `...` only when longer than 30. Run the file after completing both implementations. Each item must print its full description followed by its shortened description.
+3. Implement `find_by_title<'a, T: HasTitle>(items: &'a [T], title: &str) -> Option<&'a T>`. Return a reference to the first item whose `title()` exactly equals `title` (case-sensitive), or `None`.
 
-   Check: `python3 scripts/check.py 12_traits_generics extend print_description`.
+   Check: `python3 scripts/check.py 12_traits_generics extend find_by_title`
 
-4. Implement `HasTitle::title` for Book and Movie. Borrow each stored title as `&str`; do not allocate or consume the object.
+Run: `cargo run -p ex_12_traits_generics --bin extend`
 
-   Check: `python3 scripts/check.py 12_traits_generics extend title`.
-
-5. Implement `find_by_title(items, title)`. Return a reference to the first item with an exactly matching title, or None. Match case-sensitively. Empty input returns None. Keep the generic and lifetime signature.
-
-   Check: `python3 scripts/check.py 12_traits_generics extend find_by_title`.
-
-After all steps: `cargo run -p ex_12_traits_generics --bin extend`.
+| Expression | Expected |
+| --- | --- |
+| `find_by_title(&books, "Rust in Action").map(\|b\| b.title())` | `Some("Rust in Action")` |
+| `find_by_title(&books, "Missing").map(\|b\| b.title())` | `None` |
 
 ## Review later
 
-Open `src/bin/revisit.rs`.
+Open `src/bin/revisit.rs`. Try these a few days later without copying earlier solutions.
 
-Try these a few days later without copying earlier solutions. Continue to the next topic now if you prefer; return here for review.
+1. Implement `channel_name` for `EmailNotifier` (returns `"email"`) and `SlackNotifier` (returns `"slack"`).
 
-1. Implement `channel_name` for both types. EmailNotifier returns `"email"`; SlackNotifier returns `"slack"`.
+   Check: `python3 scripts/check.py 12_traits_generics revisit channels`
 
-   Check: `python3 scripts/check.py 12_traits_generics revisit channels`.
+2. Implement `send` for both types. `Email to ADDRESS: MESSAGE`. `Slack #CHANNEL: MESSAGE`.
 
-2. Implement `send` for both types as console output only. Email: `"Email to ADDRESS: MESSAGE"`. Slack: `"Slack #CHANNEL: MESSAGE"`. No real messages are sent.
+   Check: `python3 scripts/check.py 12_traits_generics revisit send`
 
-   Check: `python3 scripts/check.py 12_traits_generics revisit send`.
+3. Implement `broadcast<T: Notifiable>(notifiers: &[T], message: &str)`. Call `send` on each notifier. One concrete type per slice.
 
-3. Implement `broadcast(notifiers, message)`. Call send once on each notifier in order. The generic slice holds one concrete notifier type. Empty input prints nothing.
+   Check: `python3 scripts/check.py 12_traits_generics revisit broadcast`
 
-   Check: `python3 scripts/check.py 12_traits_generics revisit broadcast`.
+4. Implement `notify_all(notifiers: &[&dyn Notifiable], message: &str)`. Same but accepts mixed types via trait objects.
 
-4. Implement `notify_all(notifiers, message)`. Call send once per trait object in order. This slice can contain different notifier types. Empty input prints nothing.
+   Check: `python3 scripts/check.py 12_traits_generics revisit notify_all`
 
-   Check: `python3 scripts/check.py 12_traits_generics revisit notify_all`.
+Run: `cargo run -p ex_12_traits_generics --bin revisit`
 
-After all steps: `cargo run -p ex_12_traits_generics --bin revisit`.
-
-Next topic: [13_modules_visibility](../13_modules_visibility/README.md). Move on after Write, Predict, Repair, and Extend; keep Review later for another session.
+Next: [13_modules_visibility](../13_modules_visibility/README.md). Move on after Write, Predict, Repair, and Extend. Return here for Review later in a separate session.

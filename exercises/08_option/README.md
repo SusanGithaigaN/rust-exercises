@@ -1,32 +1,28 @@
-# 08 — Option and missing values
+# 08 — Option
 
-Work on one numbered step at a time. Write your code in `src/bin/`; the supplied checks describe expected behaviour and are not solutions.
+`Option<T>` is either `Some(value)` or `None`. It replaces null. Use it when a value might be absent — an empty slice has no maximum, dividing by zero has no result. Common methods: `.map`, `.and_then`, `.unwrap_or`.
 
-Run commands from the repository root. A function check runs only that step, so other `todo!()` bodies can remain unfinished. Do not change the supplied checks to make an incorrect answer pass.
-
-The checks cover the listed examples; also explain your result and try one new input before recording a task as done.
+Complete one step at a time. Run checks from the repository root. Do not change supplied checks to make an incorrect answer pass.
 
 ## Write
 
 Open `src/bin/recall.rs`.
 
-1. Implement `first_even(v) -> Option<i32>`. Return a copy of the first even value, including zero or negative even values. Return None when there is no even value or the slice is empty.
+1. Implement `first_even(v: &[i32]) -> Option<i32>`. Return a copy of the first even value (including zero and negative even values). Return `None` when there is no even value or the slice is empty.
 
-   Check: `python3 scripts/check.py 08_option recall first_even`.
+   Check: `python3 scripts/check.py 08_option recall first_even`
 
-2. Implement `safe_divide(a: f64, b: f64) -> Option<f64>`. Return None when `b == 0.0`; otherwise return Some(a / b). Assume finite inputs.
+2. Implement `safe_divide(a: f64, b: f64) -> Option<f64>`. Return `Some(a/b)`, or `None` when `b == 0.0`. Assume finite inputs.
 
-   Check: `python3 scripts/check.py 08_option recall safe_divide`.
+   Check: `python3 scripts/check.py 08_option recall safe_divide`
 
-3. Implement `head(v) -> Option<i32>`. Return a copy of the first element or None for an empty slice.
+3. Implement `head(v: &[i32]) -> Option<i32>`. Return a copy of the first element, or `None` if empty.
 
-   Check: `python3 scripts/check.py 08_option recall head`.
+   Check: `python3 scripts/check.py 08_option recall head`
 
-After all steps: `cargo run -p ex_08_option --bin recall`.
+Run: `cargo run -p ex_08_option --bin recall`
 
-Main example (expressions → expected results):
-
-| Expression | Expected result |
+| Expression | Expected |
 | --- | --- |
 | `first_even(&[1, 3, 4, 7])` | `Some(4)` |
 | `first_even(&[1, 3, 5, 7])` | `None` |
@@ -39,84 +35,60 @@ Main example (expressions → expected results):
 
 Open `src/bin/predict.rs`.
 
-Predict every printed line. Explain what map does to Some and None, what unwrap_or supplies, and when the if let body executes.
+Predict every printed line. Explain what `.map` does to `Some` and `None`, what `.unwrap_or` supplies, and when the `if let` body executes.
 
-Run: `cargo run -p ex_08_option --bin predict`.
-
-Done when you have compared the output with your prediction and explained each difference.
+Run: `cargo run -p ex_08_option --bin predict`
 
 ## Repair
 
 Open `src/bin/repair.rs`.
 
-Handle the missing negative value without panicking: print "no negative number". Compare maybe with Some(5). Double x only when it contains a number, printing 84. Add a None branch to the name match that prints "no name".
+Handle the missing negative value without panicking — print `"no negative number"`. Compare `maybe` with `Some(5)`. Double `x` only when it contains a number, printing `84`. Add a `None` branch to the name match that prints `"no name"`.
 
-Run: `cargo run -p ex_08_option --bin repair`.
-
-Done when the program compiles, runs without an unexpected panic, and meets the results above. Explain the cause of each error. Some fixes address logic errors or warnings, not compiler errors.
+Run: `cargo run -p ex_08_option --bin repair`
 
 ## Extend
 
 Open `src/bin/extend.rs`.
 
-1. Reimplement from recall: `first_even(v) -> Option<i32>`. Return a copy of the first even value, including zero or negative even values. Return None when there is no even value or the slice is empty.
+1. Reimplement `first_even`, `safe_divide`, and `head` from recall.
 
-   Check: `python3 scripts/check.py 08_option extend first_even`.
+2. Implement `find_index(v: &[i32], target: i32) -> Option<usize>`. Return the zero-based index of the first matching element, or `None`.
 
-2. Reimplement from recall: `safe_divide(a: f64, b: f64) -> Option<f64>`. Return None when `b == 0.0`; otherwise return Some(a / b). Assume finite inputs.
+   Check: `python3 scripts/check.py 08_option extend find_index`
 
-   Check: `python3 scripts/check.py 08_option extend safe_divide`.
+3. Implement `last_element(v: &[i32]) -> Option<i32>`. Return a copy of the last element, or `None` if empty.
 
-3. Reimplement from recall: `head(v) -> Option<i32>`. Return a copy of the first element or None for an empty slice.
+   Check: `python3 scripts/check.py 08_option extend last_element`
 
-   Check: `python3 scripts/check.py 08_option extend head`.
+Run: `cargo run -p ex_08_option --bin extend`
 
-4. Implement `find_index(v, target) -> Option<usize>`. Return the zero-based index of the first matching element. Missing values and empty input return None.
-
-   Check: `python3 scripts/check.py 08_option extend find_index`.
-
-5. Implement `last_element(v) -> Option<i32>`. Return a copy of the last element or None for empty input.
-
-   Check: `python3 scripts/check.py 08_option extend last_element`.
-
-After all steps: `cargo run -p ex_08_option --bin extend`.
-
-Main example (expressions → expected results):
-
-| Expression | Expected result |
+| Expression | Expected |
 | --- | --- |
-| `first_even(&[1, 3, 4, 7])` | `Some(4)` |
-| `safe_divide(10.0, 0.0)` | `None` |
-| `head(&[])` | `None` |
 | `find_index(&[1, 3, 5, 7, 9], 5)` | `Some(2)` |
 | `find_index(&[1, 3, 5, 7, 9], 4)` | `None` |
 | `last_element(&[9, 2, 3])` | `Some(3)` |
 | `last_element(&[])` | `None` |
-| `result` | `Some(25)` |
 
 ## Review later
 
-Open `src/bin/revisit.rs`.
+Open `src/bin/revisit.rs`. Try these a few days later without copying earlier solutions.
 
-Try these a few days later without copying earlier solutions. Continue to the next topic now if you prefer; return here for review.
+1. `parse_age(s: &str) -> Option<u32>`. Accept integers 0–150 inclusive. Return `None` for empty input, non-numeric text, surrounding whitespace, or values above 150.
 
-1. Implement `parse_age(s) -> Option<u32>`. Accept integer text from 0 through 150 inclusive. Return None for empty input, invalid unsigned integer text, surrounding whitespace, or a value above 150.
+   Check: `python3 scripts/check.py 08_option revisit parse_age`
 
-   Check: `python3 scripts/check.py 08_option revisit parse_age`.
+2. `greet(name: Option<&str>) -> String`. `Some("Alice")` → `"Hello, Alice!"`. `None` → `"Hello, stranger!"`.
 
-2. Implement `greet(name: Option<&str>) -> String`. Some(name) returns `"Hello, name!"`; None returns `"Hello, stranger!"`. Some("") returns `"Hello, !"`.
+   Check: `python3 scripts/check.py 08_option revisit greet`
 
-   Check: `python3 scripts/check.py 08_option revisit greet`.
+3. `find_matching<'a>(v: &'a [String], prefix: &str) -> Option<&'a String>`. Return the first string starting with `prefix` (case-sensitive), or `None`. Empty prefix matches the first string; empty slice returns `None`.
 
-3. Implement `find_matching(v, prefix)`. Return a shared reference to the first string starting with the case-sensitive prefix, or None. An empty prefix matches the first string; an empty slice returns None. Keep the provided lifetime signature.
+   Check: `python3 scripts/check.py 08_option revisit find_matching`
 
-   Check: `python3 scripts/check.py 08_option revisit find_matching`.
+Run: `cargo run -p ex_08_option --bin revisit`
 
-After all steps: `cargo run -p ex_08_option --bin revisit`.
-
-Main example (expressions → expected results):
-
-| Expression | Expected result |
+| Expression | Expected |
 | --- | --- |
 | `parse_age("25")` | `Some(25)` |
 | `parse_age("abc")` | `None` |
@@ -126,4 +98,4 @@ Main example (expressions → expected results):
 | `find_matching(&words, "ru")` | `Some("rust")` |
 | `find_matching(&words, "py")` | `None` |
 
-Next topic: [09_result](../09_result/README.md). Move on after Write, Predict, Repair, and Extend; keep Review later for another session.
+Next: [09_result](../09_result/README.md). Move on after Write, Predict, Repair, and Extend. Return here for Review later in a separate session.

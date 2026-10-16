@@ -1,36 +1,32 @@
-# 07 — Enums and pattern matching
+# 07 — Enums and match
 
-Work on one numbered step at a time. Write your code in `src/bin/`; the supplied checks describe expected behaviour and are not solutions.
+An enum names a fixed set of variants. `match` forces you to handle every one — the compiler rejects a match that misses a variant. Data can be attached to variants: `Shape::Circle(f64)` carries a radius, `Shape::Triangle(f64, f64, f64)` carries three sides.
 
-Run commands from the repository root. A function check runs only that step, so other `todo!()` bodies can remain unfinished. Do not change the supplied checks to make an incorrect answer pass.
-
-The checks cover the listed examples; also explain your result and try one new input before recording a task as done.
+Complete one step at a time. Run checks from the repository root. Do not change supplied checks to make an incorrect answer pass.
 
 ## Write
 
 Open `src/bin/recall.rs`.
 
-1. Implement `opposite(d)`. Map North ↔ South and East ↔ West using `match`.
+1. Implement `opposite(d: Direction) -> Direction`. North↔South, East↔West.
 
-   Check: `python3 scripts/check.py 07_enums_match recall opposite`.
+   Check: `python3 scripts/check.py 07_enums_match recall opposite`
 
-2. Implement `is_horizontal(&d)`. Return true for East and West, false for North and South. Borrow the direction.
+2. Implement `is_horizontal(d: &Direction) -> bool`. True for East and West.
 
-   Check: `python3 scripts/check.py 07_enums_match recall is_horizontal`.
+   Check: `python3 scripts/check.py 07_enums_match recall is_horizontal`
 
-3. Implement `describe(&d)`. Return `"heading north"`, `"heading south"`, `"heading east"`, or `"heading west"` for the corresponding variant.
+3. Implement `describe(d: &Direction) -> &'static str`. Return `"heading north"`, `"heading south"`, `"heading east"`, or `"heading west"`.
 
-   Check: `python3 scripts/check.py 07_enums_match recall describe`.
+   Check: `python3 scripts/check.py 07_enums_match recall describe`
 
-4. Implement `value_in_cents(coin)`. Penny = 1, Nickel = 5, Dime = 10, Quarter = 25.
+4. Implement `value_in_cents(coin: Coin) -> u32`. Penny=1, Nickel=5, Dime=10, Quarter=25.
 
-   Check: `python3 scripts/check.py 07_enums_match recall value_in_cents`.
+   Check: `python3 scripts/check.py 07_enums_match recall value_in_cents`
 
-After all steps: `cargo run -p ex_07_enums_match --bin recall`.
+Run: `cargo run -p ex_07_enums_match --bin recall`
 
-Main example (expressions → expected results):
-
-| Expression | Expected result |
+| Expression | Expected |
 | --- | --- |
 | `opposite(Direction::North)` | `South` |
 | `opposite(Direction::East)` | `West` |
@@ -38,68 +34,45 @@ Main example (expressions → expected results):
 | `is_horizontal(&Direction::North)` | `false` |
 | `describe(&Direction::South)` | `heading south` |
 | `value_in_cents(Coin::Quarter)` | `25` |
-| `value_in_cents(Coin::Penny)` | `1` |
 
 ## Predict
 
 Open `src/bin/predict.rs`.
 
-Predict every call to process. Identify which match patterns extract data from variants. Explain why all four variants must be covered and how if let handles only the Write variant.
+Predict every printed line. Explain why all four variants must be covered, how `if let` handles only one variant, and which match arms extract data.
 
-Run: `cargo run -p ex_07_enums_match --bin predict`.
-
-Done when you have compared the output with your prediction and explained each difference.
+Run: `cargo run -p ex_07_enums_match --bin predict`
 
 ## Repair
 
 Open `src/bin/repair.rs`.
 
-Add a Winter branch returning "cold". Match Circle and Rectangle using their tuple-variant shapes. Qualify the Circle constructor with its enum name. The circle of radius 3 must have area π × 9.
+Add the missing `Season::Winter` arm returning `"cold"`. Fix the `Shape` match to use tuple-variant syntax, not struct syntax. Make the `Circle` constructor an associated function.
 
-Run: `cargo run -p ex_07_enums_match --bin repair`.
-
-Done when the program compiles, runs without an unexpected panic, and meets the results above. Explain the cause of each error. Some fixes address logic errors or warnings, not compiler errors.
+Run: `cargo run -p ex_07_enums_match --bin repair`
 
 ## Extend
 
 Open `src/bin/extend.rs`.
 
-1. Reimplement from recall: `opposite(d)`. Map North ↔ South and East ↔ West using `match`.
+1. Reimplement `opposite`, `is_horizontal`, `describe`, and `value_in_cents` from recall.
 
-   Check: `python3 scripts/check.py 07_enums_match extend opposite`.
+2. Implement `turn_right(d: Direction) -> Direction`. Clockwise: North→East, East→South, South→West, West→North.
 
-2. Reimplement from recall: `is_horizontal(&d)`. Return true for East and West, false for North and South. Borrow the direction.
+   Check: `python3 scripts/check.py 07_enums_match extend turn_right`
 
-   Check: `python3 scripts/check.py 07_enums_match extend is_horizontal`.
+3. Implement `duration_seconds(light: &TrafficLight) -> u32`. Red=30, Yellow=5, Green=25.
 
-3. Reimplement from recall: `describe(&d)`. Return `"heading north"`, `"heading south"`, `"heading east"`, or `"heading west"` for the corresponding variant.
+   Check: `python3 scripts/check.py 07_enums_match extend duration_seconds`
 
-   Check: `python3 scripts/check.py 07_enums_match extend describe`.
+4. Implement `next_light(light: TrafficLight) -> TrafficLight`. Sequence: Red→Green→Yellow→Red.
 
-4. Reimplement from recall: `value_in_cents(coin)`. Penny = 1, Nickel = 5, Dime = 10, Quarter = 25.
+   Check: `python3 scripts/check.py 07_enums_match extend next_light`
 
-   Check: `python3 scripts/check.py 07_enums_match extend value_in_cents`.
+Run: `cargo run -p ex_07_enums_match --bin extend`
 
-5. Implement `turn_right(d)`. Rotate clockwise: North → East → South → West → North.
-
-   Check: `python3 scripts/check.py 07_enums_match extend turn_right`.
-
-6. Implement `duration_seconds(&light)`. Red lasts 30 seconds, Green 45 seconds, and Yellow 5 seconds.
-
-   Check: `python3 scripts/check.py 07_enums_match extend duration_seconds`.
-
-7. Implement `next_light(light)`. Cycle Red → Green → Yellow → Red.
-
-   Check: `python3 scripts/check.py 07_enums_match extend next_light`.
-
-After all steps: `cargo run -p ex_07_enums_match --bin extend`.
-
-Main example (expressions → expected results):
-
-| Expression | Expected result |
+| Expression | Expected |
 | --- | --- |
-| `opposite(Direction::North)` | `South` |
-| `is_horizontal(&Direction::East)` | `true` |
 | `turn_right(Direction::North)` | `East` |
 | `turn_right(Direction::West)` | `North` |
 | `duration_seconds(&TrafficLight::Red)` | `30` |
@@ -108,22 +81,29 @@ Main example (expressions → expected results):
 
 ## Review later
 
-Open `src/bin/revisit.rs`.
+Open `src/bin/revisit.rs`. Try these a few days later without copying earlier solutions.
 
-Try these a few days later without copying earlier solutions. Continue to the next topic now if you prefer; return here for review.
+The `Shape` enum carries data: `Circle(f64)` is a radius, `Rectangle(f64, f64)` is width and height, `Triangle(f64, f64, f64)` is three sides.
 
-1. Implement `area(&shape)`. Circle: πr². Rectangle: width × height. Triangle: Heron’s formula, where `s = (a+b+c)/2` and area = √(s(s−a)(s−b)(s−c)). Call area only for valid shapes.
+1. `area(shape: &Shape) -> f64`. Circle: `π×r²`. Rectangle: `w×h`. Triangle: Heron's formula.
 
-   Check: `python3 scripts/check.py 07_enums_match revisit area`.
+   Check: `python3 scripts/check.py 07_enums_match revisit area`
 
-2. Implement `describe(&shape)`. Return `"Circle with radius R"`, `"Rectangle W x H"`, or `"Triangle with sides A, B, C"`. Use ordinary number formatting.
+2. `describe(shape: &Shape) -> String`. Return `"Circle with radius 3"`, `"Rectangle 4 x 6"`, or `"Triangle with sides 3, 4, 5"`. Use plain number formatting.
 
-   Check: `python3 scripts/check.py 07_enums_match revisit describe`.
+   Check: `python3 scripts/check.py 07_enums_match revisit describe`
 
-3. Implement `is_valid(&shape)`. Require positive finite dimensions. For triangles, also require each pair of sides to sum to more than the third side. Equality is invalid.
+3. `is_valid(shape: &Shape) -> bool`. Circle: radius > 0. Rectangle: both sides > 0. Triangle: each pair of sides must sum to **strictly more** than the third side.
 
-   Check: `python3 scripts/check.py 07_enums_match revisit is_valid`.
+   Check: `python3 scripts/check.py 07_enums_match revisit is_valid`
 
-After all steps: `cargo run -p ex_07_enums_match --bin revisit`.
+Run: `cargo run -p ex_07_enums_match --bin revisit`
 
-Next topic: [08_option](../08_option/README.md). Move on after Write, Predict, Repair, and Extend; keep Review later for another session.
+| Expression | Expected |
+| --- | --- |
+| `area(&Shape::Circle(3.0))` | `28.27...` |
+| `area(&Shape::Rectangle(4.0, 6.0))` | `24` |
+| `area(&Shape::Triangle(3.0, 4.0, 5.0))` | `6` |
+| `is_valid(&Shape::Triangle(1.0, 2.0, 10.0))` | `false` |
+
+Next: [08_option](../08_option/README.md). Move on after Write, Predict, Repair, and Extend. Return here for Review later in a separate session.

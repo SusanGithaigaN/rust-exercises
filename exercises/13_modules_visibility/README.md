@@ -1,31 +1,30 @@
 # 13 — Modules and visibility
 
-Work on one numbered step at a time. Write your code in `src/bin/`; the supplied checks describe expected behaviour and are not solutions.
+`mod name { ... }` creates a module. Items are private by default; `pub` makes them visible to the parent. A `use` statement brings a path into scope. Separate files work the same way: `mod geometry;` in a file looks for `geometry.rs` alongside it, and that file becomes the module body.
 
-Run commands from the repository root. A function check runs only that step, so other `todo!()` bodies can remain unfinished. Do not change the supplied checks to make an incorrect answer pass.
-
-The checks cover the listed examples; also explain your result and try one new input before recording a task as done.
+Complete one step at a time. Run checks from the repository root. Do not change supplied checks to make an incorrect answer pass.
 
 ## Write
 
-Open `src/bin/recall.rs`.
+Open `src/bin/recall.rs`. The module structure is provided — implement the function bodies.
 
-1. Implement `geometry::Point::new` and `distance`. Store x and y; calculate √((x₂−x₁)² + (y₂−y₁)²). Keep the public API inside the geometry module.
+1. `Point::new(x: f64, y: f64)` — store x and y.
+2. `Point::distance(&self, other: &Point) -> f64` — Euclidean distance: `√((x2-x1)² + (y2-y1)²)`.
 
-   Check: `python3 scripts/check.py 13_modules_visibility recall point`.
+   Check: `python3 scripts/check.py 13_modules_visibility recall point`
 
-2. Implement `geometry::shapes::Circle::new`, `area`, and `contains`. Store the center and radius; area = πr²; contains returns true when distance from the center is <= radius, including the boundary. Assume nonnegative finite radii.
+3. `Circle::new(center: Point, radius: f64)` — store center and radius.
+4. `Circle::area(&self) -> f64` — `π × radius²`. Use `std::f64::consts::PI`.
+5. `Circle::contains(&self, p: &Point) -> bool` — true when the point is strictly inside (distance from center < radius).
 
-   Check: `python3 scripts/check.py 13_modules_visibility recall circle`.
+   Check: `python3 scripts/check.py 13_modules_visibility recall circle`
 
-After all steps: `cargo run -p ex_13_modules_visibility --bin recall`.
+Run: `cargo run -p ex_13_modules_visibility --bin recall`
 
-Main example (expressions → expected results):
-
-| Expression | Expected result |
+| Expression | Expected |
 | --- | --- |
 | `origin.distance(&far)` | `5` |
-| `c.area()` | `314.1592653589793` |
+| `c.area()` (radius=10) | `314.1592653589793` |
 | `c.contains(&Point::new(3.0, 4.0))` | `true` |
 | `c.contains(&Point::new(10.0, 10.0))` | `false` |
 
@@ -33,68 +32,61 @@ Main example (expressions → expected results):
 
 Open `src/bin/predict.rs`.
 
-Predict every printed line. Explain why main cannot read Config.secret_key, why a child module can read its parent’s private fields, and why outer::describe is accessible within the crate.
+Predict every printed line. Explain why `main` cannot read `Config.secret_key`, why a child module can read its parent's private fields, and what `pub mod` vs `mod` means.
 
-Run: `cargo run -p ex_13_modules_visibility --bin predict`.
-
-Done when you have compared the output with your prediction and explained each difference.
+Run: `cargo run -p ex_13_modules_visibility --bin predict`
 
 ## Repair
 
 Open `src/bin/repair.rs`.
 
-Expose age through a public getter while keeping the field private. Make tricks accessible through animals. Use the correct module path or import for Dog. Preserve Rex (age 3) and Buddy (age 2).
+Expose `age` through a public getter, keeping the field private. Make `tricks` accessible through `animals`. Use the correct module path or import for `Dog`.
 
-Run: `cargo run -p ex_13_modules_visibility --bin repair`.
-
-Done when the program compiles, runs without an unexpected panic, and meets the results above. Explain the cause of each error. Some fixes address logic errors or warnings, not compiler errors.
+Run: `cargo run -p ex_13_modules_visibility --bin repair`
 
 ## Extend
 
-Open `src/bin/extend.rs`.
+Open `src/bin/extend.rs`. Split the inline module into separate files.
 
-1. Copy the completed Point implementation from recall into the supplied `src/bin/geometry/mod.rs` skeleton. Copy Circle into `src/bin/geometry/shapes.rs`. Keep `pub mod shapes;` in mod.rs and `mod geometry;` in extend.rs. Preserve the behaviour from recall.
+- Create `src/bin/geometry.rs` with the `Point` struct, its `impl`, and `pub mod shapes;`.
+- Create `src/bin/geometry/shapes.rs` with the `Circle` struct and its `impl`.
+- This file already declares `mod geometry;` — just create the two missing files.
 
-   Check: `python3 scripts/check.py 13_modules_visibility extend modules`.
+   Check: `python3 scripts/check.py 13_modules_visibility extend modules`
 
-After all steps: `cargo run -p ex_13_modules_visibility --bin extend`.
+Run: `cargo run -p ex_13_modules_visibility --bin extend`
 
-Main example (expressions → expected results):
-
-| Expression | Expected result |
+| Expression | Expected |
 | --- | --- |
 | `origin.distance(&far)` | `5` |
 | `c.area()` | `314.1592653589793` |
 | `c.contains(&Point::new(3.0, 4.0))` | `true` |
-| `c.contains(&Point::new(10.0, 10.0))` | `false` |
 
 ## Review later
 
-Open `src/bin/revisit.rs`.
+Open `src/bin/revisit.rs`. Try these a few days later without copying earlier solutions.
 
-Try these a few days later without copying earlier solutions. Continue to the next topic now if you prefer; return here for review.
+The `stats` module is defined inline. Implement the private helper first, then use it in the public functions.
 
-1. Implement private `stats::sorted_copy(v)`. Return a sorted copy in ascending order, preserving the input. Assume finite values. Empty input returns an empty vector.
+1. `sorted_copy(v: &[f64]) -> Vec<f64>` (private) — return a sorted copy, ascending. Assume finite values.
 
-   Check: `python3 scripts/check.py 13_modules_visibility revisit sorted_copy`.
+   Check: `python3 scripts/check.py 13_modules_visibility revisit sorted_copy`
 
-2. Implement public `stats::mean(v)`. Return Some(sum / count) for a nonempty slice, otherwise None. Assume finite values.
+2. `mean(v: &[f64]) -> Option<f64>` — arithmetic mean, `None` if empty.
 
-   Check: `python3 scripts/check.py 13_modules_visibility revisit mean`.
+   Check: `python3 scripts/check.py 13_modules_visibility revisit mean`
 
-3. Implement public `stats::median(v)`. Sort a copy. For an odd count return the middle value; for an even count return the average of the two middle values. Empty input returns None.
+3. `median(v: &[f64]) -> Option<f64>` — sort a copy. Odd count → middle value. Even count → average of the two middle values.
 
-   Check: `python3 scripts/check.py 13_modules_visibility revisit median`.
+   Check: `python3 scripts/check.py 13_modules_visibility revisit median`
 
-4. Implement public `stats::mode(v)`. Return the most frequent value. Break ties by choosing the smallest value. Empty input returns None.
+4. `mode(v: &[i32]) -> Option<i32>` — most frequent value. Ties → smallest. Empty → `None`.
 
-   Check: `python3 scripts/check.py 13_modules_visibility revisit mode`.
+   Check: `python3 scripts/check.py 13_modules_visibility revisit mode`
 
-After all steps: `cargo run -p ex_13_modules_visibility --bin revisit`.
+Run: `cargo run -p ex_13_modules_visibility --bin revisit`
 
-Main example (expressions → expected results):
-
-| Expression | Expected result |
+| Expression | Expected |
 | --- | --- |
 | `stats::mean(&[1.0,2.0,3.0,4.0,5.0])` | `Some(3.0)` |
 | `stats::median(&[1.0,2.0,3.0,4.0,5.0])` | `Some(3.0)` |
@@ -102,4 +94,4 @@ Main example (expressions → expected results):
 | `stats::mode(&[1,2,2,3,3,3])` | `Some(3)` |
 | `stats::mean(&[])` | `None` |
 
-Next topic: [14_writing_tests](../14_writing_tests/README.md). Move on after Write, Predict, Repair, and Extend; keep Review later for another session.
+Next: [14_writing_tests](../14_writing_tests/README.md). Move on after Write, Predict, Repair, and Extend. Return here for Review later in a separate session.

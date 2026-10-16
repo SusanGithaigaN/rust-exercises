@@ -1,40 +1,36 @@
 # 06 — Structs and methods
 
-Work on one numbered step at a time. Write your code in `src/bin/`; the supplied checks describe expected behaviour and are not solutions.
+A struct groups related data into a named type. Methods are functions tied to a struct — they either borrow the struct (`&self`), borrow it mutably (`&mut self`), or consume it (`self`). Associated functions like `new` live in the `impl` block but don't take `self`.
 
-Run commands from the repository root. A function check runs only that step, so other `todo!()` bodies can remain unfinished. Do not change the supplied checks to make an incorrect answer pass.
-
-The checks cover the listed examples; also explain your result and try one new input before recording a task as done.
+Complete one step at a time. Run checks from the repository root. Do not change supplied checks to make an incorrect answer pass.
 
 ## Write
 
 Open `src/bin/recall.rs`.
 
-1. Implement `Rectangle::new(width, height)`. Return a rectangle storing both supplied dimensions. Assume nonnegative finite dimensions.
+1. Implement `Rectangle::new(width, height)`. Store both dimensions and return the rectangle.
 
-   Check: `python3 scripts/check.py 06_structs_impl recall new`.
+   Check: `python3 scripts/check.py 06_structs_impl recall new`
 
-2. Implement `Rectangle::area(&self)`. Return width × height without consuming the rectangle.
+2. Implement `Rectangle::area(&self)`. Return `width × height`.
 
-   Check: `python3 scripts/check.py 06_structs_impl recall area`.
+   Check: `python3 scripts/check.py 06_structs_impl recall area`
 
-3. Implement `Rectangle::perimeter(&self)`. Return 2 × (width + height).
+3. Implement `Rectangle::perimeter(&self)`. Return `2 × (width + height)`.
 
-   Check: `python3 scripts/check.py 06_structs_impl recall perimeter`.
+   Check: `python3 scripts/check.py 06_structs_impl recall perimeter`
 
-4. Implement `Rectangle::is_square(&self)`. Return true when width and height are equal. Use exact equality for the supplied dimensions.
+4. Implement `Rectangle::is_square(&self)`. Return true when `width == height`.
 
-   Check: `python3 scripts/check.py 06_structs_impl recall is_square`.
+   Check: `python3 scripts/check.py 06_structs_impl recall is_square`
 
-5. Implement `Rectangle::scale(&self, factor)`. Return a new rectangle with both dimensions multiplied by a nonnegative factor. Leave the original unchanged.
+5. Implement `Rectangle::scale(&self, factor)`. Return a new rectangle with both dimensions multiplied by `factor`. Leave the original unchanged.
 
-   Check: `python3 scripts/check.py 06_structs_impl recall scale`.
+   Check: `python3 scripts/check.py 06_structs_impl recall scale`
 
-After all steps: `cargo run -p ex_06_structs_impl --bin recall`.
+Run: `cargo run -p ex_06_structs_impl --bin recall`
 
-Main example (expressions → expected results):
-
-| Expression | Expected result |
+| Expression | Expected |
 | --- | --- |
 | `r` | `Rectangle { width: 4.0, height: 6.0 }` |
 | `r.area()` | `24` |
@@ -47,59 +43,37 @@ Main example (expressions → expected results):
 
 Open `src/bin/predict.rs`.
 
-Predict every printed line. Explain Debug formatting, the difference between an associated constructor and an instance method, and which methods mutate or borrow the value.
+Predict every printed line. Explain `Debug` formatting, the difference between an associated function and an instance method, and which methods mutate or borrow.
 
-Run: `cargo run -p ex_06_structs_impl --bin predict`.
-
-Done when you have compared the output with your prediction and explained each difference.
+Run: `cargo run -p ex_06_structs_impl --bin predict`
 
 ## Repair
 
 Open `src/bin/repair.rs`.
 
-Make Circle::new(5.0) an associated constructor. Make area borrow the circle and compute πr². Make describe return "Circle with radius 5" using an existing field. Both calls must work on the same circle.
+Make `Circle::new(5.0)` an associated constructor. Make `area` borrow the circle and compute `π × r²`. Make `describe` return `"Circle with radius 5"` using the stored field. Both calls must work on the same circle.
 
-Run: `cargo run -p ex_06_structs_impl --bin repair`.
-
-Done when the program compiles, runs without an unexpected panic, and meets the results above. Explain the cause of each error. Some fixes address logic errors or warnings, not compiler errors.
+Run: `cargo run -p ex_06_structs_impl --bin repair`
 
 ## Extend
 
 Open `src/bin/extend.rs`.
 
-1. Reimplement from recall: `Rectangle::new(width, height)`. Return a rectangle storing both supplied dimensions. Assume nonnegative finite dimensions.
+1. Reimplement all five Rectangle methods from recall.
 
-   Check: `python3 scripts/check.py 06_structs_impl extend new`.
+   Checks: `python3 scripts/check.py 06_structs_impl extend new` (and `area`, `perimeter`, `is_square`, `scale`)
 
-2. Reimplement from recall: `Rectangle::area(&self)`. Return width × height without consuming the rectangle.
+2. Implement `Rectangle::can_contain(&self, other)`. Return true only if both dimensions of `self` are **strictly** larger than the corresponding dimensions of `other`. Equal sizes do not fit.
 
-   Check: `python3 scripts/check.py 06_structs_impl extend area`.
+   Check: `python3 scripts/check.py 06_structs_impl extend can_contain`
 
-3. Reimplement from recall: `Rectangle::perimeter(&self)`. Return 2 × (width + height).
+3. Implement `Circle::new`, `Circle::area`, and `Circle::circumference`. Use `std::f64::consts::PI`. Formulas: `π × r²` and `2 × π × r`.
 
-   Check: `python3 scripts/check.py 06_structs_impl extend perimeter`.
+   Check: `python3 scripts/check.py 06_structs_impl extend circle`
 
-4. Reimplement from recall: `Rectangle::is_square(&self)`. Return true when width and height are equal. Use exact equality for the supplied dimensions.
+Run: `cargo run -p ex_06_structs_impl --bin extend`
 
-   Check: `python3 scripts/check.py 06_structs_impl extend is_square`.
-
-5. Reimplement from recall: `Rectangle::scale(&self, factor)`. Return a new rectangle with both dimensions multiplied by a nonnegative factor. Leave the original unchanged.
-
-   Check: `python3 scripts/check.py 06_structs_impl extend scale`.
-
-6. Implement `Rectangle::can_contain(&self, other)`. Return true only if both dimensions are strictly larger than the corresponding dimensions of `other`. Do not rotate rectangles. Equal dimensions do not fit.
-
-   Check: `python3 scripts/check.py 06_structs_impl extend can_contain`.
-
-7. Implement `Circle::new`, `Circle::area`, and `Circle::circumference`. Store the radius; calculate π × radius² and 2 × π × radius. Use `std::f64::consts::PI`. Assume nonnegative radii.
-
-   Check: `python3 scripts/check.py 06_structs_impl extend circle`.
-
-After all steps: `cargo run -p ex_06_structs_impl --bin extend`.
-
-Main example (expressions → expected results):
-
-| Expression | Expected result |
+| Expression | Expected |
 | --- | --- |
 | `big.can_contain(&small)` | `true` |
 | `small.can_contain(&big)` | `false` |
@@ -108,40 +82,23 @@ Main example (expressions → expected results):
 
 ## Review later
 
-Open `src/bin/revisit.rs`.
+Open `src/bin/revisit.rs`. Try these a few days later without copying earlier solutions.
 
-Try these a few days later without copying earlier solutions. Continue to the next topic now if you prefer; return here for review.
+1. `BankAccount::new(owner, initial_balance)` — store owner name and balance.
+2. `deposit(&mut self, amount)` — add to balance.
+3. `withdraw(&mut self, amount) -> bool` — subtract if funds are sufficient; return false otherwise.
+4. `balance(&self) -> f64` — return current balance.
+5. `statement(&self) -> String` — return `"Alice: $70.00"` (two decimal places).
 
-1. Implement `BankAccount::new(owner, initial_balance)`. Store an owned copy of the name and the initial balance. Assume a nonnegative finite initial balance.
+   Checks: `python3 scripts/check.py 06_structs_impl revisit new` (and `deposit`, `withdraw`, `balance`, `statement`)
 
-   Check: `python3 scripts/check.py 06_structs_impl revisit new`.
+Run: `cargo run -p ex_06_structs_impl --bin revisit`
 
-2. Implement `deposit(&mut self, amount)`. Add positive finite amounts to the balance. Ignore zero and negative amounts.
-
-   Check: `python3 scripts/check.py 06_structs_impl revisit deposit`.
-
-3. Implement `withdraw(&mut self, amount) -> bool`. For positive finite amounts no larger than the balance, subtract the amount and return true. Otherwise return false without changing the balance.
-
-   Check: `python3 scripts/check.py 06_structs_impl revisit withdraw`.
-
-4. Implement `balance(&self) -> f64`. Return the current balance without consuming the account.
-
-   Check: `python3 scripts/check.py 06_structs_impl revisit balance`.
-
-5. Implement `statement(&self) -> String`. Return `"owner: $balance"`, formatting the balance with exactly two decimal places. Example: `"Alice: $70.00"`.
-
-   Check: `python3 scripts/check.py 06_structs_impl revisit statement`.
-
-After all steps: `cargo run -p ex_06_structs_impl --bin revisit`.
-
-Main example (expressions → expected results):
-
-| Expression | Expected result |
+| Expression | Expected |
 | --- | --- |
 | `acc.statement()` | `Alice: $100.00` |
-| `acc.statement()` | `Alice: $150.00` |
 | `acc.withdraw(200.0)` | `false` |
 | `acc.withdraw(80.0)` | `true` |
 | `acc.statement()` | `Alice: $70.00` |
 
-Next topic: [07_enums_match](../07_enums_match/README.md). Move on after Write, Predict, Repair, and Extend; keep Review later for another session.
+Next: [07_enums_match](../07_enums_match/README.md). Move on after Write, Predict, Repair, and Extend. Return here for Review later in a separate session.

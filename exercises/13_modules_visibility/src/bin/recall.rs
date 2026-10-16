@@ -7,10 +7,12 @@ mod geometry {
     }
 
     impl Point {
+        // Create a Point at (x, y).
         pub fn new(x: f64, y: f64) -> Point {
             todo!()
         }
 
+        // Euclidean distance: √((x2-x1)² + (y2-y1)²).
         pub fn distance(&self, other: &Point) -> f64 {
             todo!()
         }
@@ -25,14 +27,17 @@ mod geometry {
         }
 
         impl Circle {
+            // Create a Circle at the given center with the given radius.
             pub fn new(center: Point, radius: f64) -> Circle {
                 todo!()
             }
 
+            // π × radius².
             pub fn area(&self) -> f64 {
                 todo!()
             }
 
+            // True if p is strictly inside the circle (distance from center < radius).
             pub fn contains(&self, p: &Point) -> bool {
                 todo!()
             }
@@ -46,12 +51,12 @@ use geometry::Point;
 fn main() {
     let origin = Point::new(0.0, 0.0);
     let far = Point::new(3.0, 4.0);
-    println!("{}", origin.distance(&far));
+    println!("{}", origin.distance(&far)); // 5
 
     let c = Circle::new(Point::new(0.0, 0.0), 10.0);
-    println!("{}", c.area());
-    println!("{}", c.contains(&Point::new(3.0, 4.0)));
-    println!("{}", c.contains(&Point::new(10.0, 10.0)));
+    println!("{}", c.area());                              // 78.53981633974483
+    println!("{}", c.contains(&Point::new(3.0, 4.0)));    // true
+    println!("{}", c.contains(&Point::new(10.0, 10.0)));  // false
 }
 
 // Supplied checks; leave these unchanged.
