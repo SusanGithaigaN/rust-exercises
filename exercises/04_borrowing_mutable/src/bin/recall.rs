@@ -1,15 +1,31 @@
 // Read ../../README.md before starting.
 
+use std::string;
+
 fn append_greeting(s: &mut String) {
-    todo!()
+    // todo!()
+    let new_str: String = ", hello!".to_owned();
+    s.push_str(&new_str)
 }
 
 fn double_all(v: &mut Vec<i32>) {
-    todo!()
+    // todo!()
+    // v.repeat(2);
+    for i in v.iter_mut() {
+        *i *= 2;
+    }
+    return;
 }
 
 fn clamp_to_zero(n: &mut i32) {
-    todo!()
+    // todo!()
+    // let div = 2;
+    //  dereference operator(*) it tells rust:
+    // go to the memory address that n is pointing to(*n),
+    // and look the actual integer value stored there
+    if *n < 0 {
+        *n = 0;
+    }
 }
 
 fn main() {

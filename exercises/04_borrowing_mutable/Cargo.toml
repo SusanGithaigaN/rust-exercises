@@ -22,3 +22,5 @@ path = "src/bin/extend.rs"
 [[bin]]
 name = "revisit"
 path = "src/bin/revisit.rs"
+[dependencies]
+capitalize = "0.2"

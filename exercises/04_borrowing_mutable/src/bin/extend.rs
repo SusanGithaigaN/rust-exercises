@@ -1,17 +1,30 @@
 // Read ../../README.md before starting.
+use capitalize::Capitalize;
 
 fn append_greeting(s: &mut String) {
-    todo!()
+    // todo!()
+    s.push_str(", hello!");
 }
 fn double_all(v: &mut Vec<i32>) {
-    todo!()
+    // todo!()
+    // .iter_mut() creates a mutable iterator over a collection,
+    // allowing you to loop through its elements and modify each item in place.
+    for i in v.iter_mut() {
+        *i *= 2;
+    }
 }
 fn clamp_to_zero(n: &mut i32) {
-    todo!()
+    // todo!()
+    // let mut neg: = 0;
+    // for i in n.len() {
+    if *n < 0 {
+        *n = 0;
+    }
 }
 
 fn capitalize_first(s: &mut String) {
-    todo!()
+    // todo!()
+    *s = s.capitalize_first_only();
 }
 
 fn main() {

@@ -3,6 +3,12 @@
 version = 4
 
 [[package]]
+name = "capitalize"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ad8a14ede02f27131c182d801ffa3275a4ef3ec03bda0e0eea2bc356972380b4"
+
+[[package]]
 name = "ex_01_variables"
 version = "0.1.0"
 
@@ -17,6 +23,9 @@ version = "0.1.0"
 [[package]]
 name = "ex_04_borrowing_mutable"
 version = "0.1.0"
+dependencies = [
+ "capitalize",
+]
 
 [[package]]
 name = "ex_05_slices_strings"
